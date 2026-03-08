@@ -4,9 +4,11 @@ Spring Bootを使用したシンプルなREST APIです。
 
 ## 技術スタック
 
-- Java 17
-- Spring Boot 3.2.3
+- Java 21
+- Spring Boot 3.4.2
 - Gradle
+- MySQL 8.0
+- Spring Data JPA
 
 ## プロジェクト構成
 
@@ -23,6 +25,55 @@ src/
 └── test/
     └── java/
 ```
+
+## MySQL環境構築
+
+このアプリケーションはMySQLデータベースを使用します。以下の手順でMySQLサーバーを起動してください。
+
+### Docker Composeを使用する場合（推奨）
+
+プロジェクトルートに`docker-compose.yml`が用意されています。
+
+```bash
+# MySQLコンテナを起動
+docker-compose up -d
+
+# コンテナの状態を確認
+docker-compose ps
+
+# ログを確認
+docker-compose logs mysql
+
+# 停止する場合
+docker-compose down
+```
+
+### 既存のDockerコンテナを使用する場合
+
+既にMySQLコンテナが起動している場合は、そのコンテナを利用できます。
+
+```bash
+# コンテナを確認
+docker ps | grep mysql
+
+# データベースを作成
+docker exec <container-name> mysql -u root -p<password> -e "CREATE DATABASE IF NOT EXISTS practice_db;"
+
+# データベース一覧を確認
+docker exec <container-name> mysql -u root -p<password> -e "SHOW DATABASES;"
+```
+
+### 接続設定
+
+`src/main/resources/application.properties`に以下の設定があります:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/practice_db
+spring.datasource.username=root
+spring.datasource.password=mypassword
+```
+
+環境に合わせて接続情報を変更してください。
 
 ## 実行方法
 
@@ -98,6 +149,9 @@ curl http://localhost:8080/api/status
 - ✅ リクエストパラメータのバインディング
 - ✅ 組み込みTomcatサーバー
 - ✅ CORS対応（Spring Boot自動設定）
+- ✅ MySQL データベース連携
+- ✅ Spring Data JPA（Hibernate）
+- ✅ 自動テーブル生成（ddl-auto=update）
 
 ## 開発
 
@@ -127,7 +181,11 @@ curl http://localhost:8080/api/status
 ## 注意事項
 
 このプロジェクトを実行するには以下が必要です：
-- Java 17以上
+- Java 21以上
 - Gradle（またはGradleラッパー）
+- Docker（MySQL環境用）
+- MySQL 8.0（Dockerコンテナで起動）
 
 初回実行時、IntelliJ IDEAがGradleラッパー（`gradlew`）を自動生成します。
+
+**重要**: アプリケーション起動前にMySQLサーバーが起動していることを確認してください。
