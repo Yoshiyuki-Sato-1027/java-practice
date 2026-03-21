@@ -1,6 +1,11 @@
 package com.example.javapractice.repository;
 
+import static org.assertj.core.api.Assertions.*;
+
 import com.example.javapractice.entity.User;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,26 +16,17 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.TestPropertySource;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.*;
-
 /**
  * UserRepositoryのJUnit 5テスト
  *
- * @DataJpaTestアノテーションを使用して、JPA関連のコンポーネントのみをロード
- * テスト用のインメモリH2データベースを使用
- * 各テストメソッド後に自動的にロールバック
+ * @DataJpaTestアノテーションを使用して、JPA関連のコンポーネントのみをロード テスト用のインメモリH2データベースを使用
+ *                                              各テストメソッド後に自動的にロールバック
  */
 @DataJpaTest
 @DisplayName("UserRepository テスト")
-@TestPropertySource(properties = {
-        "spring.jpa.hibernate.ddl-auto=create-drop",
+@TestPropertySource(properties = {"spring.jpa.hibernate.ddl-auto=create-drop",
         "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect",
-        "spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect"
-})
+        "spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect"})
 class UserRepositoryTest {
 
     @Autowired
@@ -144,10 +140,7 @@ class UserRepositoryTest {
         List<User> allUsers = userRepository.findAll();
 
         // then: すべてのユーザーが取得できる
-        assertThat(allUsers)
-                .hasSize(3)
-                .extracting(User::getName)
-                .containsExactlyInAnyOrder("User1", "User2", "User3");
+        assertThat(allUsers).hasSize(3).extracting(User::getName).containsExactlyInAnyOrder("User1", "User2", "User3");
     }
 
     @Test
@@ -206,20 +199,14 @@ class UserRepositoryTest {
     @DisplayName("複数のユーザーを一括保存できる")
     void testSaveAll() {
         // given: 複数のユーザーを作成
-        List<User> users = List.of(
-                new User("Batch User 1", "batch1@example.com"),
-                new User("Batch User 2", "batch2@example.com"),
-                new User("Batch User 3", "batch3@example.com")
-        );
+        List<User> users = List.of(new User("Batch User 1", "batch1@example.com"),
+                new User("Batch User 2", "batch2@example.com"), new User("Batch User 3", "batch3@example.com"));
 
         // when: 一括保存
         List<User> savedUsers = userRepository.saveAll(users);
 
         // then: すべてのユーザーが保存される
-        assertThat(savedUsers)
-                .hasSize(3)
-                .allMatch(u -> u.getId() != null)
-                .allMatch(u -> u.getCreatedAt() != null);
+        assertThat(savedUsers).hasSize(3).allMatch(u -> u.getId() != null).allMatch(u -> u.getCreatedAt() != null);
     }
 
     @Test
@@ -266,10 +253,7 @@ class UserRepositoryTest {
         String userString = user.toString();
 
         // then: 必要な情報が含まれる
-        assertThat(userString)
-                .contains("User{")
-                .contains("id=1")
-                .contains("name='Test User'")
+        assertThat(userString).contains("User{").contains("id=1").contains("name='Test User'")
                 .contains("email='test@example.com'");
     }
 

@@ -6,10 +6,8 @@ import java.util.Set;
 /**
  * インターフェース実装の例：TrainedDog
  *
- * 【学習ポイント】
- * 1. extends で Dog を継承し、implements で Trainable を実装
- * 2. クラス継承とインターフェース実装の組み合わせ
- * 3. インターフェースのすべてのメソッドを実装する必要がある
+ * 【学習ポイント】 1. extends で Dog を継承し、implements で Trainable を実装 2.
+ * クラス継承とインターフェース実装の組み合わせ 3. インターフェースのすべてのメソッドを実装する必要がある
  */
 public class TrainedDog extends Dog implements Trainable {
     // Trainable の実装に必要なフィールド
@@ -65,26 +63,26 @@ public class TrainedDog extends Dog implements Trainable {
      */
     private void executeCommand(String command) {
         switch (command.toLowerCase()) {
-            case "お座り":
-            case "sit":
+            case "お座り" :
+            case "sit" :
                 System.out.println("  → " + getName() + "はお座りしました。");
                 break;
-            case "待て":
-            case "stay":
+            case "待て" :
+            case "stay" :
                 System.out.println("  → " + getName() + "はその場で待っています。");
                 break;
-            case "伏せ":
-            case "down":
+            case "伏せ" :
+            case "down" :
                 System.out.println("  → " + getName() + "は伏せをしました。");
                 break;
-            case "お手":
-            case "shake":
+            case "お手" :
+            case "shake" :
                 System.out.println("  → " + getName() + "はお手をしました。");
                 break;
-            case "おかわり":
+            case "おかわり" :
                 System.out.println("  → " + getName() + "はおかわりをしました。");
                 break;
-            default:
+            default :
                 System.out.println("  → " + getName() + "は「" + command + "」を実行しています。");
         }
     }

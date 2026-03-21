@@ -3,19 +3,15 @@ package old;
 /**
  * 継承の例：Dog クラス
  *
- * 【学習ポイント】
- * 1. extends キーワードで Animal を継承
- * 2. 抽象メソッド makeSound() と move() を実装
- * 3. 親クラスのコンストラクタを super() で呼び出し
- * 4. 独自のフィールドとメソッドを追加可能
+ * 【学習ポイント】 1. extends キーワードで Animal を継承 2. 抽象メソッド makeSound() と move() を実装 3.
+ * 親クラスのコンストラクタを super() で呼び出し 4. 独自のフィールドとメソッドを追加可能
  */
 public class Dog extends Animal {
     // Dog 固有のフィールド
     private String breed; // 犬種
 
     /**
-     * コンストラクタ
-     * super() で親クラスのコンストラクタを呼び出す
+     * コンストラクタ super() で親クラスのコンストラクタを呼び出す
      */
     public Dog(String name, int age, double weight, String breed) {
         super(name, age, weight); // 親クラスのコンストラクタ呼び出し
@@ -33,8 +29,7 @@ public class Dog extends Animal {
     }
 
     /**
-     * 抽象メソッドの実装：鳴き声
-     * ポリモーフィズムの例
+     * 抽象メソッドの実装：鳴き声 ポリモーフィズムの例
      */
     @Override
     public String makeSound() {
@@ -42,8 +37,7 @@ public class Dog extends Animal {
     }
 
     /**
-     * 抽象メソッドの実装：移動方法
-     * ポリモーフィズムの例
+     * 抽象メソッドの実装：移動方法 ポリモーフィズムの例
      */
     @Override
     public void move() {
@@ -65,8 +59,7 @@ public class Dog extends Animal {
     }
 
     /**
-     * メソッドのオーバーライド例
-     * 親クラスの displayInfo() をオーバーライドして犬種情報を追加
+     * メソッドのオーバーライド例 親クラスの displayInfo() をオーバーライドして犬種情報を追加
      */
     @Override
     public void displayInfo() {
@@ -80,7 +73,6 @@ public class Dog extends Animal {
      */
     @Override
     public String toString() {
-        return String.format("Dog(%s, %s, %d歳, %.2fkg)",
-            getName(), breed, getAge(), getWeight());
+        return String.format("Dog(%s, %s, %d歳, %.2fkg)", getName(), breed, getAge(), getWeight());
     }
 }

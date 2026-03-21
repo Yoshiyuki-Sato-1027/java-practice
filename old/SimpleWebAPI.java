@@ -1,7 +1,6 @@
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -73,12 +72,8 @@ public class SimpleWebAPI {
             LocalDateTime now = LocalDateTime.now();
             String timestamp = now.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
-            String response = String.format(
-                "{\"timestamp\": \"%s\", \"date\": \"%s\", \"time\": \"%s\"}",
-                timestamp,
-                now.toLocalDate(),
-                now.toLocalTime()
-            );
+            String response = String.format("{\"timestamp\": \"%s\", \"date\": \"%s\", \"time\": \"%s\"}", timestamp,
+                    now.toLocalDate(), now.toLocalTime());
             sendResponse(exchange, 200, response);
         }
     }
@@ -97,11 +92,8 @@ public class SimpleWebAPI {
             long usedMemory = totalMemory - freeMemory;
 
             String response = String.format(
-                "{\"status\": \"running\", \"memory\": {\"total\": %d, \"used\": %d, \"free\": %d}}",
-                totalMemory / 1024 / 1024,
-                usedMemory / 1024 / 1024,
-                freeMemory / 1024 / 1024
-            );
+                    "{\"status\": \"running\", \"memory\": {\"total\": %d, \"used\": %d, \"free\": %d}}",
+                    totalMemory / 1024 / 1024, usedMemory / 1024 / 1024, freeMemory / 1024 / 1024);
             sendResponse(exchange, 200, response);
         }
     }

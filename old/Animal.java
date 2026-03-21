@@ -3,12 +3,9 @@ package old;
 /**
  * 抽象クラスの例：Animal
  *
- * 【学習ポイント】
- * 1. 抽象クラスは abstract キーワードで定義
- * 2. 抽象メソッド（実装を持たない）を定義可能
- * 3. 具象メソッド（実装を持つ）も定義可能
- * 4. インスタンス化できない（new Animal() は不可）
- * 5. カプセル化：private フィールド + getter/setter
+ * 【学習ポイント】 1. 抽象クラスは abstract キーワードで定義 2. 抽象メソッド（実装を持たない）を定義可能 3.
+ * 具象メソッド（実装を持つ）も定義可能 4. インスタンス化できない（new Animal() は不可） 5. カプセル化：private フィールド +
+ * getter/setter
  */
 public abstract class Animal {
     // カプセル化の例：private フィールド
@@ -17,8 +14,7 @@ public abstract class Animal {
     private double weight; // kg単位
 
     /**
-     * コンストラクタ
-     * 抽象クラスでもコンストラクタを持てる（サブクラスから呼ばれる）
+     * コンストラクタ 抽象クラスでもコンストラクタを持てる（サブクラスから呼ばれる）
      */
     public Animal(String name, int age, double weight) {
         this.name = name;
@@ -62,20 +58,17 @@ public abstract class Animal {
     }
 
     /**
-     * 抽象メソッドの例
-     * サブクラスで必ず実装する必要がある
+     * 抽象メソッドの例 サブクラスで必ず実装する必要がある
      */
     public abstract String makeSound();
 
     /**
-     * 抽象メソッドの例2
-     * それぞれの動物固有の行動
+     * 抽象メソッドの例2 それぞれの動物固有の行動
      */
     public abstract void move();
 
     /**
-     * 具象メソッドの例
-     * すべての動物に共通の振る舞い
+     * 具象メソッドの例 すべての動物に共通の振る舞い
      */
     public void sleep() {
         System.out.println(name + "は眠っています... Zzz");
@@ -116,7 +109,6 @@ public abstract class Animal {
      */
     @Override
     public String toString() {
-        return String.format("%s(%s, %d歳, %.2fkg)",
-            getClass().getSimpleName(), name, age, weight);
+        return String.format("%s(%s, %d歳, %.2fkg)", getClass().getSimpleName(), name, age, weight);
     }
 }

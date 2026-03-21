@@ -3,12 +3,8 @@ package old;
 /**
  * オブジェクト指向プログラミング（OOP）のデモンストレーション
  *
- * このクラスは以下の OOP の主要概念を実演します：
- * 1. 継承（Inheritance）
- * 2. ポリモーフィズム（Polymorphism）
- * 3. 抽象クラス（Abstract Class）
- * 4. カプセル化（Encapsulation）
- * 5. インターフェース（Interface）
+ * このクラスは以下の OOP の主要概念を実演します： 1. 継承（Inheritance） 2. ポリモーフィズム（Polymorphism） 3.
+ * 抽象クラス（Abstract Class） 4. カプセル化（Encapsulation） 5. インターフェース（Interface）
  */
 public class OOPDemo {
     public static void main(String[] args) {

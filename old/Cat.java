@@ -3,10 +3,8 @@ package old;
 /**
  * 継承の例：Cat クラス
  *
- * 【学習ポイント】
- * 1. Dog と同じく Animal を継承
- * 2. 同じ抽象メソッドを異なる方法で実装（ポリモーフィズム）
- * 3. Cat 固有の振る舞いを追加
+ * 【学習ポイント】 1. Dog と同じく Animal を継承 2. 同じ抽象メソッドを異なる方法で実装（ポリモーフィズム） 3. Cat
+ * 固有の振る舞いを追加
  */
 public class Cat extends Animal {
     // Cat 固有のフィールド
@@ -36,8 +34,7 @@ public class Cat extends Animal {
     }
 
     /**
-     * 抽象メソッドの実装：鳴き声
-     * Dog とは異なる実装（ポリモーフィズム）
+     * 抽象メソッドの実装：鳴き声 Dog とは異なる実装（ポリモーフィズム）
      */
     @Override
     public String makeSound() {
@@ -45,8 +42,7 @@ public class Cat extends Animal {
     }
 
     /**
-     * 抽象メソッドの実装：移動方法
-     * Dog とは異なる実装（ポリモーフィズム）
+     * 抽象メソッドの実装：移動方法 Dog とは異なる実装（ポリモーフィズム）
      */
     @Override
     public void move() {
@@ -110,7 +106,6 @@ public class Cat extends Animal {
      */
     @Override
     public String toString() {
-        return String.format("Cat(%s, %d歳, %.2fkg, %s飼い)",
-            getName(), getAge(), getWeight(), isIndoor ? "室内" : "屋外");
+        return String.format("Cat(%s, %d歳, %.2fkg, %s飼い)", getName(), getAge(), getWeight(), isIndoor ? "室内" : "屋外");
     }
 }

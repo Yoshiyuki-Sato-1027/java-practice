@@ -6,11 +6,9 @@ import java.util.List;
 /**
  * ポリモーフィズムの活用例：Zoo クラス
  *
- * 【学習ポイント】
- * 1. List<Animal> で異なる種類の動物を同じコレクションで管理
- * 2. ポリモーフィズムにより、実際の型に応じた適切なメソッドが呼ばれる
- * 3. instanceof 演算子で型チェック
- * 4. キャストによる具象クラス固有のメソッド呼び出し
+ * 【学習ポイント】 1. List<Animal> で異なる種類の動物を同じコレクションで管理 2.
+ * ポリモーフィズムにより、実際の型に応じた適切なメソッドが呼ばれる 3. instanceof 演算子で型チェック 4.
+ * キャストによる具象クラス固有のメソッド呼び出し
  */
 public class Zoo {
     private String name;
@@ -25,8 +23,7 @@ public class Zoo {
     }
 
     /**
-     * 動物を追加
-     * ポリモーフィズム：Dog, Cat, その他 Animal サブクラスをすべて受け入れる
+     * 動物を追加 ポリモーフィズム：Dog, Cat, その他 Animal サブクラスをすべて受け入れる
      */
     public void addAnimal(Animal animal) {
         animals.add(animal);
@@ -45,8 +42,7 @@ public class Zoo {
     }
 
     /**
-     * すべての動物の鳴き声を聞く
-     * ポリモーフィズムの実践例
+     * すべての動物の鳴き声を聞く ポリモーフィズムの実践例
      */
     public void makeAllAnimalsSpeak() {
         System.out.println("\n=== " + name + "のコンサート ===");
@@ -58,8 +54,7 @@ public class Zoo {
     }
 
     /**
-     * すべての動物を移動させる
-     * ポリモーフィズムの実践例
+     * すべての動物を移動させる ポリモーフィズムの実践例
      */
     public void makeAllAnimalsMove() {
         System.out.println("\n=== 運動の時間 ===");
@@ -82,8 +77,7 @@ public class Zoo {
     }
 
     /**
-     * 犬だけに特殊な行動をさせる
-     * instanceof 演算子とキャストの例
+     * 犬だけに特殊な行動をさせる instanceof 演算子とキャストの例
      */
     public void playWithDogs() {
         System.out.println("\n=== 犬との遊び時間 ===");
@@ -114,8 +108,7 @@ public class Zoo {
     }
 
     /**
-     * 訓練された犬のトレーニングセッション
-     * インターフェース Trainable の活用例
+     * 訓練された犬のトレーニングセッション インターフェース Trainable の活用例
      */
     public void trainingSession() {
         System.out.println("\n=== トレーニングセッション ===");
@@ -123,8 +116,7 @@ public class Zoo {
             // Trainable インターフェースを実装しているかチェック
             if (animal instanceof Trainable) {
                 Trainable trainableAnimal = (Trainable) animal;
-                System.out.println(animal.getName() + "のトレーニング（レベル: "
-                    + trainableAnimal.getTrainingLevel() + "）");
+                System.out.println(animal.getName() + "のトレーニング（レベル: " + trainableAnimal.getTrainingLevel() + "）");
             }
         }
         System.out.println("==============================\n");

@@ -1,5 +1,9 @@
 package com.example.javapractice.controller;
 
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,15 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 /**
  * ApiControllerのJUnit 5テスト
  *
- * @WebMvcTestアノテーションを使用して、コントローラー層のみをテスト
- * MockMvcを使ってHTTPリクエストをシミュレート
+ * @WebMvcTestアノテーションを使用して、コントローラー層のみをテスト MockMvcを使ってHTTPリクエストをシミュレート
  */
 @WebMvcTest(ApiController.class)
 @DisplayName("ApiController テスト")
@@ -54,12 +53,7 @@ class ApiControllerTest {
 
     @ParameterizedTest
     @DisplayName("GET /api/greet?name={name} - カスタム名でGreetメッセージを返す")
-    @CsvSource({
-            "Alice, 'Hello, Alice!'",
-            "Bob, 'Hello, Bob!'",
-            "太郎, 'Hello, 太郎!'",
-            "123, 'Hello, 123!'"
-    })
+    @CsvSource({"Alice, 'Hello, Alice!'", "Bob, 'Hello, Bob!'", "太郎, 'Hello, 太郎!'", "123, 'Hello, 123!'"})
     void testGreetWithParameter(String name, String expectedMessage) throws Exception {
         // when: nameパラメータ付きで/api/greetにGETリクエストを送信
         mockMvc.perform(get("/api/greet").param("name", name))
@@ -78,8 +72,7 @@ class ApiControllerTest {
                 // then: ステータスコードが200 OKである
                 .andExpect(status().isOk())
                 // and: JSONレスポンスに必要なフィールドが含まれる
-                .andExpect(jsonPath("$.timestamp").exists())
-                .andExpect(jsonPath("$.date").exists())
+                .andExpect(jsonPath("$.timestamp").exists()).andExpect(jsonPath("$.date").exists())
                 .andExpect(jsonPath("$.time").exists())
                 // and: 日付フォーマットが正しい（YYYY-MM-DD形式）
                 .andExpect(jsonPath("$.date").value(matchesPattern("\\d{4}-\\d{2}-\\d{2}")))
@@ -97,10 +90,8 @@ class ApiControllerTest {
                 // and: JSONレスポンスにステータス情報が含まれる
                 .andExpect(jsonPath("$.status").value("running"))
                 // and: メモリ情報が含まれる
-                .andExpect(jsonPath("$.memory").exists())
-                .andExpect(jsonPath("$.memory.total").isNumber())
-                .andExpect(jsonPath("$.memory.used").isNumber())
-                .andExpect(jsonPath("$.memory.free").isNumber())
+                .andExpect(jsonPath("$.memory").exists()).andExpect(jsonPath("$.memory.total").isNumber())
+                .andExpect(jsonPath("$.memory.used").isNumber()).andExpect(jsonPath("$.memory.free").isNumber())
                 // and: メモリの値が正の数である
                 .andExpect(jsonPath("$.memory.total").value(greaterThan(0)))
                 .andExpect(jsonPath("$.memory.used").value(greaterThanOrEqualTo(0)))
@@ -109,17 +100,10 @@ class ApiControllerTest {
 
     @ParameterizedTest
     @DisplayName("すべてのエンドポイントがContent-Type: application/jsonを返す")
-    @ValueSource(strings = {
-            "/api/hello",
-            "/api/greet",
-            "/api/time",
-            "/api/status"
-    })
+    @ValueSource(strings = {"/api/hello", "/api/greet", "/api/time", "/api/status"})
     void testContentTypeIsJson(String endpoint) throws Exception {
         // when & then: 各エンドポイントがJSONを返す
-        mockMvc.perform(get(endpoint))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"));
+        mockMvc.perform(get(endpoint)).andExpect(status().isOk()).andExpect(content().contentType("application/json"));
     }
 
     @Test
@@ -131,8 +115,7 @@ class ApiControllerTest {
                 // then: ステータスコードが200 OKである
                 .andExpect(status().isOk())
                 // and: メッセージが返される（空文字列またはデフォルト値）
-                .andExpect(jsonPath("$.message").exists())
-                .andExpect(jsonPath("$.status").value("success"));
+                .andExpect(jsonPath("$.message").exists()).andExpect(jsonPath("$.status").value("success"));
     }
 
     @Test

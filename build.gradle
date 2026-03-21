@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.5.0'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.diffplug.spotless' version '6.25.0'
 }
 
 group = 'com.example'
@@ -37,5 +38,31 @@ tasks.named('test') {
     useJUnitPlatform()
     testLogging {
         events "passed", "skipped", "failed"
+    }
+}
+
+// Spotless: Code formatting configuration
+spotless {
+    java {
+        // Eclipse JDT Formatter を使用（Java 21完全対応）
+        eclipse()
+
+        // インポート文の整理
+        importOrder()
+
+        // 不要なインポート文を削除
+        removeUnusedImports()
+
+        // 末尾の空白を削除
+        trimTrailingWhitespace()
+
+        // ファイル末尾に改行を追加
+        endWithNewline()
+
+        // インデントを4スペースに統一
+        indentWithSpaces(4)
+
+        // 対象ファイルの指定
+        target 'src/**/*.java', 'old/**/*.java'
     }
 }
