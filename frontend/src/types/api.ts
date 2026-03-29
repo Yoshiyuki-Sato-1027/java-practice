@@ -30,3 +30,15 @@ export interface CreateUserRequest {
   name: string
   email: string
 }
+
+export interface Todo {
+  id: number
+  title: string
+  completed: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+export interface CreateTodoRequest {
+  title: string
+}

@@ -3,6 +3,7 @@ import { HelloPanel } from './components/HelloPanel'
 import { TimePanel } from './components/TimePanel'
 import { StatusPanel } from './components/StatusPanel'
 import { UserList } from './components/UserList'
+import { TodoList } from './components/TodoList'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <TimePanel />
         <StatusPanel />
         <UserList />
+        <TodoList />
       </main>
     </div>
   )
