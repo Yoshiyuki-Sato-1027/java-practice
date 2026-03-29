@@ -1,16 +1,14 @@
 package com.example.javapractice.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import org.seasar.doma.Entity;
+import org.seasar.doma.GeneratedValue;
+import org.seasar.doma.GenerationType;
+import org.seasar.doma.Id;
+import org.seasar.doma.Table;
+import org.seasar.doma.jdbc.entity.NamingType;
 
-@Entity
+@Entity(naming = NamingType.SNAKE_LOWER_CASE)
 @Table(name = "todos")
 public class Todo {
 
@@ -18,38 +16,22 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
     private String title;
 
-    @Column(nullable = false)
-    private boolean completed = false;
+    private boolean completed;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
-
-    // Constructors
     public Todo() {
     }
 
     public Todo(String title) {
         this.title = title;
+        this.completed = false;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

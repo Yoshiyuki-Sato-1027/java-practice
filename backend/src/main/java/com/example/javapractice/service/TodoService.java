@@ -1,40 +1,50 @@
 package com.example.javapractice.service;
 
 import com.example.javapractice.entity.Todo;
-import com.example.javapractice.repository.TodoRepository;
+import com.example.javapractice.repository.TodoDao;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TodoService {
 
-    private final TodoRepository todoRepository;
+    private final TodoDao todoDao;
 
-    public TodoService(TodoRepository todoRepository) {
-        this.todoRepository = todoRepository;
+    public TodoService(TodoDao todoDao) {
+        this.todoDao = todoDao;
     }
 
     public List<Todo> findAll() {
-        return todoRepository.findAll();
+        return todoDao.selectAll();
     }
 
     public Optional<Todo> findById(Long id) {
-        return todoRepository.findById(id);
+        return todoDao.selectById(id);
     }
 
+    @Transactional
     public Todo create(Todo todo) {
-        return todoRepository.save(todo);
+        todo.setCreatedAt(LocalDateTime.now());
+        todo.setUpdatedAt(LocalDateTime.now());
+        todoDao.insert(todo);
+        return todo;
     }
 
+    @Transactional
     public Optional<Todo> update(Long id, boolean completed) {
-        return todoRepository.findById(id).map(todo -> {
+        return todoDao.selectById(id).map(todo -> {
             todo.setCompleted(completed);
-            return todoRepository.save(todo);
+            todo.setUpdatedAt(LocalDateTime.now());
+            todoDao.update(todo);
+            return todo;
         });
     }
 
+    @Transactional
     public void delete(Long id) {
-        todoRepository.deleteById(id);
+        todoDao.selectById(id).ifPresent(todoDao::delete);
     }
 }
