@@ -164,12 +164,45 @@ class Car extends Vehicle {
     }
 }
 
-/*
- * Motorcycle クラスを実装
- */
-// class Motorcycle extends Vehicle {
-// // TODO: フィールド、コンストラクタ、メソッドを実装
-// }
+
+//
+// * <h3>要件3: Motorcycle クラス（Vehicle を継承）</h3>
+// * <ul>
+// * <li>追加フィールド: hasSidecar (boolean)</li>
+// * <li>getVehicleType() を実装（"Motorcycle" を返す）</li>
+// * <li>accelerate() を実装（speed に amount * 1.2 を加算、最高速度200km/h）</li>
+// * </ul>
+class Motorcycle extends Vehicle {
+    // TODO: フィールド、コンストラクタ、メソッドを実装
+    private boolean hasSidecar;
+
+    // コンストラクタ：brand, speed, hasSidecarが必要
+    public Motorcycle(String brand, double speed, boolean hasSidecar) {
+        super(brand, speed);
+        this.hasSidecar = hasSidecar;
+    }
+
+    @Override
+    public String getVehicleType() {  // Stringを追加
+        return "Motorcycle";
+    }
+
+    @Override
+    public void accelerate(double amount) {
+        double newSpeed = getSpeed() + amount * 1.2;  // 型宣言 + セミコロン
+
+        if (newSpeed > 200) {
+            setSpeed(200);  // returnではなくsetSpeed
+        } else {
+            setSpeed(newSpeed);
+        }
+    }
+
+    // Getter（あると便利）
+    public boolean hasSidecar() {
+        return hasSidecar;
+    }
+}
 
 /*
  * VehicleManager クラスを実装
