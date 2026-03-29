@@ -1,191 +1,130 @@
-# Spring Boot REST API
+# Spring Boot + Doma REST API
 
-Spring Bootを使用したシンプルなREST APIです。
+Spring Boot と Doma ORM を使用した Todo/User 管理アプリケーションです。
+フロントエンドは React + Vite で構成されています。
 
 ## 技術スタック
 
-- Java 21
-- Spring Boot 3.4.2
-- Gradle
-- MySQL 8.0
-- Spring Data JPA
+| レイヤー | 技術 |
+|---|---|
+| バックエンド | Java 21 / Spring Boot 3.5.0 |
+| ORM (Todo) | Doma 3.6.0 |
+| ORM (User) | Spring Data JPA / Hibernate |
+| データベース | MySQL 8.0 (Docker) |
+| フロントエンド | React 18 / TypeScript / Vite |
+| ビルドツール | Gradle |
 
 ## プロジェクト構成
 
 ```
-src/
-├── main/
-│   ├── java/
-│   │   └── com/example/javapractice/
-│   │       ├── JavaPracticeApplication.java    # メインアプリケーション
-│   │       └── controller/
-│   │           └── ApiController.java          # REST APIコントローラー
-│   └── resources/
-│       └── application.properties              # 設定ファイル
-└── test/
-    └── java/
+java-practice/
+├── backend/
+│   └── src/main/
+│       ├── java/com/example/javapractice/
+│       │   ├── controller/
+│       │   │   ├── ApiController.java      # /api/hello, /greet, /time, /status
+│       │   │   ├── TodoController.java     # /api/todos CRUD
+│       │   │   └── UserController.java     # /api/users CRUD
+│       │   ├── service/
+│       │   │   ├── TodoService.java
+│       │   │   └── UserService.java
+│       │   ├── repository/
+│       │   │   ├── TodoDao.java            # Doma DAO
+│       │   │   └── UserRepository.java     # Spring Data JPA
+│       │   └── entity/
+│       │       ├── Todo.java               # Doma エンティティ
+│       │       └── User.java               # JPA エンティティ
+│       └── resources/
+│           ├── application.properties
+│           ├── schema.sql                  # todosテーブルDDL
+│           └── META-INF/com/example/javapractice/repository/TodoDao/
+│               ├── selectAll.sql
+│               └── selectById.sql
+├── frontend/                               # React + Vite
+├── docker-compose.yml                      # MySQL
+└── Makefile
 ```
 
-## MySQL環境構築
-
-このアプリケーションはMySQLデータベースを使用します。以下の手順でMySQLサーバーを起動してください。
-
-### Docker Composeを使用する場合（推奨）
-
-プロジェクトルートに`docker-compose.yml`が用意されています。
+## 起動方法
 
 ```bash
-# MySQLコンテナを起動
-docker-compose up -d
+# ターミナル1: MySQL + バックエンド起動
+make up && make backend
 
-# コンテナの状態を確認
-docker-compose ps
+# ターミナル2: フロントエンド起動
+make frontend
 
-# ログを確認
-docker-compose logs mysql
-
-# 停止する場合
-docker-compose down
+# ブラウザ
+open http://localhost:5173
 ```
 
-### 既存のDockerコンテナを使用する場合
-
-既にMySQLコンテナが起動している場合は、そのコンテナを利用できます。
+### その他のコマンド
 
 ```bash
-# コンテナを確認
-docker ps | grep mysql
-
-# データベースを作成
-docker exec <container-name> mysql -u root -p<password> -e "CREATE DATABASE IF NOT EXISTS practice_db;"
-
-# データベース一覧を確認
-docker exec <container-name> mysql -u root -p<password> -e "SHOW DATABASES;"
+make down      # MySQL停止
+make test      # テスト実行
+make format    # コードフォーマット (Spotless)
+make install   # フロントエンド依存関係インストール
 ```
 
-### 接続設定
+## APIエンドポイント
 
-`src/main/resources/application.properties`に以下の設定があります:
+### Todo API (`/api/todos`)
+
+| メソッド | パス | 説明 |
+|---|---|---|
+| GET | `/api/todos` | 一覧取得 |
+| GET | `/api/todos/{id}` | 1件取得 |
+| POST | `/api/todos` | 作成 |
+| PUT | `/api/todos/{id}/complete` | 完了にする |
+| DELETE | `/api/todos/{id}` | 削除 |
+
+```bash
+# 一覧取得
+curl http://localhost:8080/api/todos
+
+# 作成
+curl -X POST http://localhost:8080/api/todos \
+  -H "Content-Type: application/json" \
+  -d '{"title": "買い物"}'
+
+# 完了
+curl -X PUT http://localhost:8080/api/todos/1/complete
+
+# 削除
+curl -X DELETE http://localhost:8080/api/todos/1
+```
+
+### User API (`/api/users`)
+
+| メソッド | パス | 説明 |
+|---|---|---|
+| GET | `/api/users` | 一覧取得 |
+| GET | `/api/users/{id}` | 1件取得 |
+| POST | `/api/users` | 作成 |
+| DELETE | `/api/users/{id}` | 削除 |
+
+### ユーティリティ API (`/api`)
+
+| メソッド | パス | 説明 |
+|---|---|---|
+| GET | `/api/hello` | Hello World |
+| GET | `/api/greet?name=xxx` | 挨拶 |
+| GET | `/api/time` | 現在時刻 |
+| GET | `/api/status` | サーバーステータス |
+
+## 接続設定
+
+`backend/src/main/resources/application.properties`
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/practice_db
 spring.datasource.username=root
-spring.datasource.password=mypassword
+spring.datasource.password=root
 ```
-
-環境に合わせて接続情報を変更してください。
-
-## 実行方法
-
-### IntelliJ IDEAで実行
-
-1. IntelliJ IDEAでプロジェクトを開く
-2. Gradleプロジェクトとして同期
-3. `JavaPracticeApplication.java` を右クリックして「Run」
-
-### Gradleコマンドで実行
-
-```bash
-# Gradleラッパーを使用（推奨）
-./gradlew bootRun
-
-# または、ビルドしてから実行
-./gradlew build
-java -jar build/libs/java-practice-0.0.1-SNAPSHOT.jar
-```
-
-サーバーはポート8080で起動します。
-
-## APIエンドポイント
-
-### 1. Hello World
-
-```bash
-curl http://localhost:8080/api/hello
-```
-
-**レスポンス:**
-```json
-{"message": "Hello, World!", "status": "success"}
-```
-
-### 2. 挨拶（パラメータ付き）
-
-```bash
-curl "http://localhost:8080/api/greet?name=Taro"
-```
-
-**レスポンス:**
-```json
-{"message": "Hello, Taro!", "status": "success"}
-```
-
-### 3. 現在時刻
-
-```bash
-curl http://localhost:8080/api/time
-```
-
-**レスポンス:**
-```json
-{"timestamp": "2026-03-08T14:30:00", "date": "2026-03-08", "time": "14:30:00"}
-```
-
-### 4. サーバーステータス
-
-```bash
-curl http://localhost:8080/api/status
-```
-
-**レスポンス:**
-```json
-{"status": "running", "memory": {"total": 256, "used": 128, "free": 128}}
-```
-
-## 機能
-
-- ✅ Spring Boot REST API
-- ✅ JSONレスポンス（自動シリアライズ）
-- ✅ リクエストパラメータのバインディング
-- ✅ 組み込みTomcatサーバー
-- ✅ CORS対応（Spring Boot自動設定）
-- ✅ MySQL データベース連携
-- ✅ Spring Data JPA（Hibernate）
-- ✅ 自動テーブル生成（ddl-auto=update）
-
-## 開発
-
-### ビルド
-
-```bash
-./gradlew build
-```
-
-### テスト実行
-
-```bash
-./gradlew test
-```
-
-### クリーン＆ビルド
-
-```bash
-./gradlew clean build
-```
-
-## 停止方法
-
-- IntelliJ IDEA: 停止ボタンをクリック
-- コマンドライン: `Ctrl+C`
 
 ## 注意事項
 
-このプロジェクトを実行するには以下が必要です：
-- Java 21以上
-- Gradle（またはGradleラッパー）
-- Docker（MySQL環境用）
-- MySQL 8.0（Dockerコンテナで起動）
-
-初回実行時、IntelliJ IDEAがGradleラッパー（`gradlew`）を自動生成します。
-
-**重要**: アプリケーション起動前にMySQLサーバーが起動していることを確認してください。
+- バックエンド起動前に `make up` でMySQLを起動してください
+- Todo は Doma ORM（SQLファイルで管理）、User は Spring Data JPA を使用しています
+- `todos` テーブルは `schema.sql` により `CREATE TABLE IF NOT EXISTS` で自動生成されます
