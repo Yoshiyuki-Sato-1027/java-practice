@@ -87,16 +87,40 @@ public class Exercise01_Vehicle {
 }
 
 // TODO: ここから下に Vehicle, Car, Motorcycle, VehicleManager クラスを実装してください
-
+// * <h3>要件1: Vehicle 抽象クラス</h3>
+//        * <ul>
+// * <li>フィールド: brand (String), speed (double)</li>
+//        * <li>コンストラクタ: brand を受け取る</li>
+//        * <li>抽象メソッド: String getVehicleType()</li>
+//        * <li>抽象メソッド: void accelerate(double amount)</li>
+//        * <li>具象メソッド: void displayInfo() - ブランドと現在速度を表示</li>
+//        * <li>getter/setter を適切に実装</li>
+//        * </ul>
 /*
  * Vehicle 抽象クラスを実装
  */
- abstract class Vehicle {
- // TODO: フィールド、コンストラクタ、メソッドを実装
-    public Vehicle() {
-        this.brand =
+abstract class Vehicle {
+    // TODO: フィールド、コンストラクタ、メソッドを実装
+    private String brand;
+    private double speed;
+
+    // コンストラクタ
+    public Vehicle(String brand, double speed) {
+        this.brand = brand;
+        this.speed = speed;
     }
- }
+
+
+    public abstract String getVehicleType();
+
+    public abstract void accelerate(double amount);
+
+    public void displayInfo() {
+        System.out.println("Brand: " + brand + ", Speed: " + speed);
+    }
+}
+
+
 
 /*
  * Car クラスを実装
