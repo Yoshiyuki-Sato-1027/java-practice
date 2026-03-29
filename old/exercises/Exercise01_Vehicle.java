@@ -66,6 +66,7 @@ package old.exercises;
  * manager.displayAllVehicles();
  * </pre>
  */
+
 public class Exercise01_Vehicle {
     public static void main(String[] args) {
         System.out.println("【問題1】乗り物クラス階層の実装");
@@ -121,13 +122,47 @@ abstract class Vehicle {
 }
 
 
-
 /*
  * Car クラスを実装
  */
-// class Car extends Vehicle {
-// // TODO: フィールド、コンストラクタ、メソッドを実装
-// }
+// * <h3>要件2: Car クラス（Vehicle を継承）</h3>
+//        * <ul>
+// * <li>追加フィールド: numberOfDoors (int)</li>
+//        * <li>getVehicleType() を実装（"Car" を返す）</li>
+//        * <li>accelerate() を実装（speed に amount を加算、最高速度180km/h）</li>
+//        * </ul>
+class Car extends Vehicle {
+    // TODO: フィールド、コンストラクタ、メソッドを実装
+    private int numberOfDoors;
+
+    public Car(String brand, double speed, int numberOfDoors) {
+        super(brand, speed);  // 親クラスのコンストラクタを呼ぶ
+        this.numberOfDoors = numberOfDoors;
+    }
+
+    @Override
+    public String getVehicleType() {
+        return "Car";
+    }
+
+    @Override
+    public void accelerate(double amount) {
+        // speedにアクセスするためgetterが必要か、protectedにする
+        double newSpeed = getSpeed() + amount;
+
+        // 最高速度180km/hの制限
+        if (newSpeed > 180) {
+            setSpeed(180);
+        } else {
+            setSpeed(newSpeed);
+        }
+    }
+
+    // Getter
+    public int getNumberOfDoors() {
+        return numberOfDoors;
+    }
+}
 
 /*
  * Motorcycle クラスを実装
