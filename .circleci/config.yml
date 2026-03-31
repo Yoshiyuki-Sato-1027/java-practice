@@ -8,10 +8,11 @@ jobs:
     docker:
       - image: cimg/openjdk:21.0
 
-    working_directory: ~/repo
+    working_directory: ~/repo/backend
 
     steps:
-      - checkout
+      - checkout:
+          path: ~/repo
 
       # Gradleの依存関係をキャッシュ
       - restore_cache:
@@ -39,6 +40,11 @@ jobs:
           paths:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "build.gradle" }}
+
+      # コードフォーマットチェック
+      - run:
+          name: Check code format (Spotless)
+          command: ./gradlew spotlessCheck
 
       # テストの実行
       - run:
