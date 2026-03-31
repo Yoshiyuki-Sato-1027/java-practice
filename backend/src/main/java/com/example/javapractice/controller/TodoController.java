@@ -42,9 +42,9 @@ public class TodoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    @PutMapping("/{id}/complete")
-    public ResponseEntity<Todo> complete(@PathVariable Long id) {
-        return todoService.update(id, true)
+    @PutMapping("/{id}/toggle")
+    public ResponseEntity<Todo> toggle(@PathVariable Long id) {
+        return todoService.toggle(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

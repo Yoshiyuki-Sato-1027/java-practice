@@ -27,6 +27,9 @@ public class TodoService {
 
     @Transactional
     public Todo create(Todo todo) {
+        if (todo.getTitle() == null || todo.getTitle().trim().isEmpty()) {
+            throw new IllegalArgumentException("タイトルは必須です");
+        }
         todo.setCreatedAt(LocalDateTime.now());
         todo.setUpdatedAt(LocalDateTime.now());
         todoDao.insert(todo);
@@ -34,9 +37,9 @@ public class TodoService {
     }
 
     @Transactional
-    public Optional<Todo> update(Long id, boolean completed) {
+    public Optional<Todo> toggle(Long id) {
         return todoDao.selectById(id).map(todo -> {
-            todo.setCompleted(completed);
+            todo.setCompleted(!todo.isCompleted());
             todo.setUpdatedAt(LocalDateTime.now());
             todoDao.update(todo);
             return todo;
