@@ -9,8 +9,8 @@ export const createTodo = (data: CreateTodoRequest) =>
     body: JSON.stringify(data),
   })
 
-export const completeTodo = (id: number) =>
-  apiFetch<Todo>(`/todos/${id}/complete`, { method: 'PUT' })
+export const toggleTodo = (id: number) =>
+  apiFetch<Todo>(`/todos/${id}/toggle`, { method: 'PUT' })
 
 export const deleteTodo = (id: number) =>
   apiFetch<void>(`/todos/${id}`, { method: 'DELETE' })

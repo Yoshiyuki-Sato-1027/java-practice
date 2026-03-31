@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { fetchTodos, completeTodo, deleteTodo } from '../api/todos'
+import { fetchTodos, toggleTodo, deleteTodo } from '../api/todos'
 import type { Todo } from '../types/api'
 import { TodoForm } from './TodoForm'
 
@@ -17,10 +17,10 @@ export function TodoList() {
     }
   }
 
-  const handleComplete = async (id: number) => {
+  const handleToggle = async (id: number) => {
     try {
       setError(null)
-      await completeTodo(id)
+      await toggleTodo(id)
       await load()
     } catch (e) {
       setError(String(e))
@@ -74,11 +74,9 @@ export function TodoList() {
                 <td>{t.completed ? '完了' : '未完了'}</td>
                 <td>{t.createdAt}</td>
                 <td>
-                  {!t.completed && (
-                    <button onClick={() => handleComplete(t.id)} style={{ marginRight: '0.5rem' }}>
-                      完了
-                    </button>
-                  )}
+                  <button onClick={() => handleToggle(t.id)} style={{ marginRight: '0.5rem' }}>
+                    {t.completed ? '未完了に戻す' : '完了'}
+                  </button>
                   <button className="delete-btn" onClick={() => handleDelete(t.id)}>
                     削除
                   </button>
