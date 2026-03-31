@@ -41,6 +41,15 @@ public class ApiController {
         return response;
     }
 
+    @GetMapping("/health")
+    public Map<String, String> health() {
+        Map<String, String> response = new HashMap<>();
+        response.put("status", "UP");
+        response.put("version", "0.0.1-SNAPSHOT");
+        response.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        return response;
+    }
+
     @GetMapping("/status")
     public Map<String, Object> status() {
         Runtime runtime = Runtime.getRuntime();

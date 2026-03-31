@@ -31,9 +31,7 @@ public class TodoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Todo> getById(@PathVariable Long id) {
-        return todoService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return todoService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -44,9 +42,7 @@ public class TodoController {
 
     @PutMapping("/{id}/toggle")
     public ResponseEntity<Todo> toggle(@PathVariable Long id) {
-        return todoService.toggle(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return todoService.toggle(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")

@@ -119,6 +119,14 @@ class ApiControllerTest {
     }
 
     @Test
+    @DisplayName("GET /api/health - ステータスUPを返す")
+    void testHealthEndpoint() throws Exception {
+        mockMvc.perform(get("/api/health")).andExpect(status().isOk())
+                .andExpect(content().contentType("application/json")).andExpect(jsonPath("$.status").value("UP"))
+                .andExpect(jsonPath("$.version").exists()).andExpect(jsonPath("$.timestamp").exists());
+    }
+
+    @Test
     @DisplayName("GET /api/greet - 特殊文字を含むnameパラメータでも動作する")
     void testGreetWithSpecialCharacters() throws Exception {
         // when: 特殊文字を含むnameで/api/greetにGETリクエストを送信

@@ -52,13 +52,9 @@ class TodoControllerTest {
         Todo created = buildTodo(1L, "買い物する", false);
         when(todoService.create(any())).thenReturn(created);
 
-        mockMvc.perform(post("/api/todos")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"title\":\"買い物する\"}"))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.title").value("買い物する"))
-                .andExpect(jsonPath("$.completed").value(false));
+        mockMvc.perform(post("/api/todos").contentType(MediaType.APPLICATION_JSON).content("{\"title\":\"買い物する\"}"))
+                .andExpect(status().isCreated()).andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.title").value("買い物する")).andExpect(jsonPath("$.completed").value(false));
     }
 
     @Test
@@ -83,8 +79,7 @@ class TodoControllerTest {
         Todo toggled = buildTodo(1L, "タスク", true);
         when(todoService.toggle(1L)).thenReturn(Optional.of(toggled));
 
-        mockMvc.perform(put("/api/todos/1/toggle"))
-                .andExpect(status().isOk())
+        mockMvc.perform(put("/api/todos/1/toggle")).andExpect(status().isOk())
                 .andExpect(jsonPath("$.completed").value(true));
     }
 
@@ -94,8 +89,7 @@ class TodoControllerTest {
         Todo toggled = buildTodo(1L, "タスク", false);
         when(todoService.toggle(1L)).thenReturn(Optional.of(toggled));
 
-        mockMvc.perform(put("/api/todos/1/toggle"))
-                .andExpect(status().isOk())
+        mockMvc.perform(put("/api/todos/1/toggle")).andExpect(status().isOk())
                 .andExpect(jsonPath("$.completed").value(false));
     }
 
@@ -115,8 +109,7 @@ class TodoControllerTest {
     void deleteTodo_returns204() throws Exception {
         doNothing().when(todoService).delete(1L);
 
-        mockMvc.perform(delete("/api/todos/1"))
-                .andExpect(status().isNoContent());
+        mockMvc.perform(delete("/api/todos/1")).andExpect(status().isNoContent());
     }
 
     @Test
@@ -125,12 +118,9 @@ class TodoControllerTest {
         doNothing().when(todoService).delete(1L);
         when(todoService.findAll()).thenReturn(List.of());
 
-        mockMvc.perform(delete("/api/todos/1"))
-                .andExpect(status().isNoContent());
+        mockMvc.perform(delete("/api/todos/1")).andExpect(status().isNoContent());
 
-        mockMvc.perform(get("/api/todos"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(0));
+        mockMvc.perform(get("/api/todos")).andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(0));
     }
 
     // ---- ヘルパー ----
